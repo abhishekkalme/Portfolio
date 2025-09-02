@@ -10,7 +10,7 @@ const projects = [
     title: 'LMS-MERN',
     description:
       'A full-stack Learning Management System with secure authentication, role-based access, note management, Cloudinary integration, and syllabus uploads to make learning seamless.',
-    image: '/projectimg/LMS.png',
+    image: '/LMS.png',
     tags: ['MERN Stack', 'Authentication', 'Role-Based Access', 'Cloudinary', 'Syllabus Upload'],
     tagColors: ['bg-blue-600', 'bg-green-600', 'bg-red-600', 'bg-purple-600', 'bg-orange-600'],
     codeLink: 'https://github.com/abhishekkalme/LMS-MERN',
@@ -21,7 +21,7 @@ const projects = [
     title: 'CineVerse',
     description:
       'A modern, responsive web app to explore and discover movies & TV shows using TMDB API, built with React.js and Vite for a smooth and interactive user experience.',
-    image: '/projectimg/cineverse.png',
+    image: '/cineverse.png',
     tags: ['React.js', 'Vite', 'TMDB API', 'Responsive UI', 'Tailwind CSS'],
     tagColors: ['bg-blue-600', 'bg-green-600', 'bg-purple-600', 'bg-orange-600', 'bg-cyan-600'],
     codeLink: 'https://github.com/abhishekkalme/React.js-MovieApp-and-TMDB-API',
@@ -32,7 +32,7 @@ const projects = [
     title: 'Portfolio Website',
     description:
       'A personal portfolio website showcasing my skills, projects, and tech stack. Built with Next.js and Tailwind CSS for a modern and responsive design.',
-    image: '/projectimg/Portfolio.png',
+    image: '/Portfolio.png',
     tags: ['Next.js', 'Tailwind CSS', 'Responsive Design', 'React.js'],
     tagColors: ['bg-blue-600', 'bg-green-600', 'bg-purple-600', 'bg-orange-600'],
     codeLink: 'https://github.com/abhishekkalme/portfolio-website',
