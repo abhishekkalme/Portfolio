@@ -35,8 +35,8 @@ const projects = [
     image: '/Portfolio.png',
     tags: ['Next.js', 'Tailwind CSS', 'Responsive Design', 'React.js'],
     tagColors: ['bg-blue-600', 'bg-green-600', 'bg-purple-600', 'bg-orange-600'],
-    codeLink: 'https://github.com/abhishekkalme/portfolio-website',
-    demoLink: 'https://AbhisheKalme.dev/',
+    codeLink: 'https://github.com/abhishekkalme/Portfolio',
+    demoLink: 'https://abhishek-portfolio25.vercel.app',
   },
 ]
 
