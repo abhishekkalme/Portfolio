@@ -42,7 +42,7 @@ const contributions = [
   },
 ];
 
-export default function ContributionsSection() {
+export default function TestimonialsSection() {
   const containerVariants: Variants = {
     hidden: {},
     visible: {

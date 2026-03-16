@@ -14,6 +14,7 @@ const navItems = [
   { id: 'about', label: 'About' },
   { id: 'skills', label: 'Skills' },
   { id: 'projects', label: 'Projects' },
+  { id: 'contributions', label: 'Contributions' },
   { id: 'contact', label: 'Contact' },
 ]
 
@@ -26,16 +27,17 @@ export default function Navigation({ activeSection, scrollToSection }: Navigatio
     setIsMenuOpen(false)
   }
 
-  // ✅ Close menu when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsMenuOpen(false)
       }
     }
+
     if (isMenuOpen) {
       document.addEventListener('mousedown', handleClickOutside)
     }
+
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
