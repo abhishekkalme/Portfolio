@@ -1,26 +1,30 @@
-'use client'
+"use client";
 
-import { Code, Database, Github, ExternalLink } from 'lucide-react'
-import Image from 'next/image'
-import { motion, Variants } from 'framer-motion'
+import { Github, ExternalLink } from "lucide-react";
+import Image from "next/image";
+import { motion, Variants } from "framer-motion";
 
 const projects = [
   {
     id: 1,
-    title: 'LMS-MERN',
+    title: 'Learnify',
     description:
-      'A full-stack Learning Management System with secure authentication, role-based access, note management, Cloudinary integration, and syllabus uploads to make learning seamless.',
+      'Built a full-stack LMS with role-based access, secure auth, and a clean flow for notes and learning content.',
+    highlight:
+      'Kept learning workflows smooth across devices with fast pages, predictable permissions, and efficient media uploads.',
     image: '/LMS.png',
     tags: ['MERN Stack', 'Authentication', 'Role-Based Access', 'Cloudinary', 'Syllabus Upload'],
     tagColors: ['bg-blue-600', 'bg-green-600', 'bg-red-600', 'bg-purple-600', 'bg-orange-600'],
     codeLink: 'https://github.com/abhishekkalme/LMS-MERN',
-    demoLink: 'https://lms-learning-management-system.netlify.app/',
+    demoLink: 'https://mylearnify.vercel.app/',
   },
   {
     id: 2,
     title: 'CineVerse',
     description:
-      'A modern, responsive web app to explore and discover movies & TV shows using TMDB API, built with React.js and Vite for a smooth and interactive user experience.',
+      'Built a movie discovery app using the TMDB API with fast browsing, search, and a mobile-first UI.',
+    highlight:
+      'Optimised for quick search and filtering so people can find something to watch without fighting the interface.',
     image: '/cineverse.png',
     tags: ['React.js', 'Vite', 'TMDB API', 'Responsive UI', 'Tailwind CSS'],
     tagColors: ['bg-blue-600', 'bg-green-600', 'bg-purple-600', 'bg-orange-600', 'bg-cyan-600'],
@@ -31,148 +35,133 @@ const projects = [
     id: 3,
     title: 'Portfolio Website',
     description:
-      'A personal portfolio website showcasing my skills, projects, and tech stack. Built with Next.js and Tailwind CSS for a modern and responsive design.',
+      'Designed and built this portfolio with intentional typography, spacing, and a clear story.',
+    highlight:
+      'Focused on a calm reading experience, strong hierarchy, and a layout that works just as well on smaller screens.',
     image: '/Portfolio.png',
     tags: ['Next.js', 'Tailwind CSS', 'Responsive Design', 'React.js'],
     tagColors: ['bg-blue-600', 'bg-green-600', 'bg-purple-600', 'bg-orange-600'],
     codeLink: 'https://github.com/abhishekkalme/Portfolio',
     demoLink: 'https://abhishek-portfolio25.vercel.app',
   },
-]
+  {
+    id: 4,
+    title: 'Redis-Based-API-Rate-Limiter',
+    description:
+      'Built a Redis-backed rate limiter to protect APIs from abuse while keeping latency low.',
+    highlight:
+      'Designed predictable limits, clear responses, and a small integration surface so it can drop into existing Node services easily.',
+    image: '/rt.png',
+    tags: ['Node.js', 'Redis', 'API', 'Rate Limiting'],
+    tagColors: ['bg-blue-600', 'bg-green-600', 'bg-purple-600', 'bg-orange-600'],
+    codeLink: 'https://github.com/abhishekkalme/Redis-Based-API-Rate-Limiter',
+    demoLink: '',
+  },
+];
 
 // Motion Variants
 const containerVariants: Variants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.2 } },
-}
+  visible: { transition: { staggerChildren: 0.12 } },
+};
 
 const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300 } },
-}
-
-const overlayVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  hover: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300 } },
-}
-
-const tagVariants: Variants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.2 } },
-}
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: "easeOut" },
+  },
+};
 
 export default function ProjectsSection() {
   return (
-    <section id="projects" className="py-20 px-4 bg-slate-900">
-      <div className="max-w-6xl mx-auto">
-        {/* Section Header */}
-        <motion.div
-          className="text-center mb-16"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={containerVariants}
-        >
-          <motion.h2
-            className="text-4xl font-bold mb-4 flex justify-center items-center gap-2 text-white"
-            variants={cardVariants}
-          >
-            <Code className="w-8 h-8" />
-            My <span className="text-blue-400">Projects</span>
-            <Database className="w-8 h-8" />
-          </motion.h2>
-          <motion.p className="text-gray-400 max-w-2xl mx-auto" variants={cardVariants}>
-            Each project represents{' '}
-            <span className="text-blue-400">real-world solutions</span> crafted with modern
-            technologies and <span className="text-green-400">attention to detail</span>.
-          </motion.p>
-        </motion.div>
+    <section id="projects" className="section border-t border-border">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="section-kicker mb-3">Selected work</p>
+            <h2 className="section-title">A few projects I’ve enjoyed building.</h2>
+          </div>
+          <p className="max-w-sm text-xs leading-relaxed text-muted-foreground md:text-sm">
+            A mix of product work and small experiments. If you’d like details
+            on any project, I’m happy to share what I learned.
+          </p>
+        </div>
 
-        {/* Projects Grid */}
         <motion.div
-          className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid gap-6 md:grid-cols-2"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.2 }}
           variants={containerVariants}
         >
           {projects.map((project) => (
-            <motion.div
+            <motion.article
               key={project.id}
-              className="glass-card relative rounded-xl overflow-hidden hover:scale-105 transition-transform duration-300 group"
+              className="glass-card flex flex-col overflow-hidden"
               variants={cardVariants}
-              whileHover="hover"
             >
-              {/* Image */}
-              <div className="relative overflow-hidden">
-                <motion.div
-                  className="relative w-full h-52"
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    className="object-cover rounded-t-xl"
-                  />
-                </motion.div>
-
-                {/* Overlay */}
-                <motion.div
-                  className="absolute inset-0 bg-black bg-opacity-70 flex flex-col justify-center items-center p-4 text-center"
-                  variants={overlayVariants}
-                  initial="hidden"
-                  whileHover="hover"
-                >
-                  <h3 className="text-lg font-semibold text-white mb-2">{project.title}</h3>
-                  <motion.div
-                    className="flex flex-wrap gap-1 justify-center"
-                    initial="hidden"
-                    animate="visible"
-                    variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
-                  >
-                    {project.tags.map((tag, idx) => (
-                      <motion.span
-                        key={idx}
-                        className={`text-xs px-2 py-1 rounded ${project.tagColors[idx] ?? 'bg-gray-600'}`}
-                        variants={tagVariants}
-                      >
-                        {tag}
-                      </motion.span>
-                    ))}
-                  </motion.div>
-                </motion.div>
+              <div className="relative aspect-[16/9] overflow-hidden border-b border-border bg-muted">
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  className="object-contain"
+                />
               </div>
 
-              {/* Description & Buttons */}
-              <div className="p-6">
-                <p className="text-gray-300 text-sm mb-4 leading-relaxed">{project.description}</p>
-                <div className="flex space-x-3">
+              <div className="flex flex-1 flex-col gap-3 px-4 py-4">
+                <header>
+                  <h3 className="text-sm font-semibold md:text-base">
+                    {project.title}
+                  </h3>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                    {project.description}
+                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {project.highlight}
+                  </p>
+                </header>
+
+                <div className="flex flex-wrap gap-1.5 text-xs text-muted-foreground">
+                  {project.tags.map((tag, idx) => (
+                    <span
+                      key={idx}
+                      className="rounded-full border border-border px-2 py-0.5"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="mt-2 flex gap-3 text-xs">
                   <a
                     href={project.codeLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center space-x-1 text-gray-400 hover:text-white transition-colors duration-200"
+                    className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground"
                   >
-                    <Github className="w-4 h-4" />
-                    <span className="text-sm">Code</span>
+                    <Github className="h-3.5 w-3.5" />
+                    <span>Code</span>
                   </a>
-                  <a
-                    href={project.demoLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center space-x-1 hover:scale-105"
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                    <span>Live Demo</span>
-                  </a>
+                  {project.demoLink && (
+                    <a
+                      href={project.demoLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground"
+                    >
+                      <ExternalLink className="h-3.5 w-3.5" />
+                      <span>Live</span>
+                    </a>
+                  )}
                 </div>
               </div>
-            </motion.div>
+            </motion.article>
           ))}
         </motion.div>
       </div>
     </section>
-  )
+  );
 }

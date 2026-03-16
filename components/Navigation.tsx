@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Github, Linkedin, Twitter, Mail, Sun, Moon } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 
 interface NavigationProps {
   activeSection: string
@@ -14,20 +14,11 @@ const navItems = [
   { id: 'about', label: 'About' },
   { id: 'skills', label: 'Skills' },
   { id: 'projects', label: 'Projects' },
-  { id: 'testimonials', label: 'Testimonials' },
   { id: 'contact', label: 'Contact' },
-]
-
-const socialLinks = [
-  { href: 'https://github.com/abhishekkalme/', icon: Github, color: 'rgba(255,255,255,0.8)', label: 'GitHub' },
-  { href: 'https://www.linkedin.com/in/abhishek-kalme/', icon: Linkedin, color: '#0A66C2', label: 'LinkedIn' },
-  { href: 'https://twitter.com/Abhishek_kalme', icon: Twitter, color: '#1DA1F2', label: 'Twitter' },
-  { href: 'mailto:abhishekkalme0@gmail.com', icon: Mail, color: '#FACC15', label: 'Email' },
 ]
 
 export default function Navigation({ activeSection, scrollToSection }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isDark, setIsDark] = useState(true)
   const menuRef = useRef<HTMLDivElement | null>(null)
 
   const handleNavClick = (sectionId: string) => {
@@ -51,155 +42,95 @@ export default function Navigation({ activeSection, scrollToSection }: Navigatio
   }, [isMenuOpen])
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-transparent backdrop-blur-md border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Brand */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
+    <nav className="fixed inset-x-0 top-0 z-40 border-b border-border bg-background/90 backdrop-blur-md">
+      <div className="site-container">
+        <div className="flex h-14 items-center justify-between gap-4">
+          <motion.button
+            type="button"
+            onClick={() => handleNavClick('home')}
+            className="flex items-baseline gap-2 text-sm font-medium tracking-[0.25em] uppercase text-muted-foreground"
+            initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-xl font-bold text-blue-400"
+            transition={{ duration: 0.25 }}
           >
-            Abhishek
-          </motion.div>
+            <span className="h-6 w-[1px] bg-muted" />
+            <span>Abhishek&nbsp;Kalme</span>
+          </motion.button>
 
-          {/* Desktop Navigation (centered) */}
-          <div className="hidden md:flex flex-1 justify-center space-x-8">
-            {navItems.map((item, index) => (
-              <motion.button
+          <div className="hidden md:flex items-center gap-6 text-xs font-medium tracking-[0.18em] uppercase">
+            {navItems.map((item) => (
+              <button
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.08, duration: 0.35 }}
                 aria-current={activeSection === item.id ? 'page' : undefined}
-                className={`relative px-3 py-2 text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded
-                  ${
-                    activeSection === item.id
-                      ? 'text-blue-400'
-                      : 'text-gray-300 hover:text-white'
-                  }`}
+                className={`relative pb-1 transition-colors ${
+                  activeSection === item.id
+                    ? 'text-foreground'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
               >
                 {item.label}
                 {activeSection === item.id && (
-                  <motion.span
-                    layoutId="underline"
-                    className="absolute left-0 right-0 -bottom-1 h-[2px] bg-blue-400 rounded-full"
-                  />
+                  <span className="absolute inset-x-0 -bottom-0.5 h-[1px] bg-foreground" />
                 )}
-              </motion.button>
+              </button>
             ))}
           </div>
 
-          {/* Social Icons (Desktop only) */}
-          <div className="hidden md:flex items-center space-x-3">
-            {socialLinks.map(({ href, icon: Icon, color, label }, index) => (
-              <motion.a
-                key={index}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={label}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, delay: 0.1 + index * 0.08 }}
-                whileHover={{
-                  boxShadow: `0px 0px 8px ${color}`,
-                  color: color,
-                }}
-                className="w-8 h-8 bg-slate-800 rounded-md flex items-center justify-center transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <Icon className="w-4 h-4" />
-              </motion.a>
-            ))}
-          </div>
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-border text-xs text-muted-foreground md:hidden"
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          </button>
+        </div>
+      </div>
 
-          {/* Mobile Menu Button */}
-<button
-  onClick={() => setIsMenuOpen(!isMenuOpen)}
-  className="md:hidden p-2 rounded-lg hover:bg-slate-800/40 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-  aria-label="Toggle menu"
->
-  {isMenuOpen ? (
-    <X className="w-6 h-6 text-gray-300" />
-  ) : (
-    <Menu className="w-6 h-6 text-gray-300" />
-  )}
-</button>
-</div>
-</div>
+      <AnimatePresence>
+        {isMenuOpen && (
+          <>
+            <motion.div
+              key="overlay"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              className="fixed inset-0 z-30 bg-black/10"
+              onClick={() => setIsMenuOpen(false)}
+            />
 
-{/* Mobile Dropdown */}
-<AnimatePresence>
-  {isMenuOpen && (
-    <>
-      {/* Click-outside overlay */}
-      <motion.div
-        key="overlay"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.15 }}
-        className="fixed inset-0 bg-black/20 backdrop-blur-sm md:hidden z-40"
-        onClick={() => setIsMenuOpen(false)}
-      />
-
-      {/* Dropdown */}
-      <motion.div
-        ref={menuRef}
-        key="menu"
-        initial={{ opacity: 0, y: -10, scale: 0.97 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: -10, scale: 0.97 }}
-        transition={{ duration: 0.2, ease: "easeOut" }}
-        className="absolute top-16 left-4 right-4 md:hidden rounded-xl bg-slate-900/90 border border-white/10 shadow-lg z-50"
-      >
-        {/* Nav Links */}
-        <div className="px-3 py-4 space-y-1">
-          {navItems.map((item, index) => (
-            <motion.button
-              key={item.id}
-              onClick={() => handleNavClick(item.id)}
-              initial={{ opacity: 0, x: -15 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -15 }}
-              transition={{ delay: index * 0.05, duration: 0.2 }}
-              className={`block w-full text-left px-4 py-2 rounded-lg text-base font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 transition
-                ${
-                  activeSection === item.id
-                    ? "text-blue-400 bg-slate-800"
-                    : "text-gray-300 hover:text-white hover:bg-slate-700"
-                }`}
+            <motion.div
+              ref={menuRef}
+              key="menu"
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2, ease: 'easeOut' }}
+              className="absolute inset-x-4 top-14 z-40 rounded-md border border-border bg-background shadow-sm md:hidden"
             >
-              {item.label}
-            </motion.button>
-          ))}
-        </div>
-
-        {/* Socials + Theme toggle */}
-        <div className="px-6 py-4 border-t border-slate-800 flex flex-col items-center gap-4">
-          <div className="flex gap-6">
-            {socialLinks.map(({ href, icon: Icon, label }, idx) => (
-              <a
-                key={idx}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={label}
-                className="text-gray-300 hover:text-blue-400 transition"
-              >
-                <Icon className="w-5 h-5" />
-              </a>
-            ))}
-          </div>
-
-        </div>
-      </motion.div>
-    </>
-  )}
-</AnimatePresence>
-
+              <div className="px-4 py-3 text-[11px] font-medium tracking-[0.2em] text-muted-foreground uppercase">
+                Navigation
+              </div>
+              <div className="border-t border-border px-2 py-2">
+                {navItems.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => handleNavClick(item.id)}
+                    className={`block w-full rounded-md px-3 py-2 text-left text-sm ${
+                      activeSection === item.id
+                        ? 'bg-muted text-foreground'
+                        : 'text-muted-foreground hover:bg-muted'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </nav>
   )
 }

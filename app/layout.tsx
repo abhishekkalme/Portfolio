@@ -1,8 +1,18 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Fraunces } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const sans = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const serif = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-serif",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://AbhisheKalme.dev"), // ✅ required to fix metadataBase warning
@@ -50,7 +60,7 @@ export const metadata: Metadata = {
 
 // ✅ Move themeColor here instead of metadata
 export const viewport: Viewport = {
-  themeColor: "#0f172a",
+  themeColor: "#f6f3ee",
 };
 
 export default function RootLayout({
@@ -60,7 +70,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${sans.variable} ${serif.variable} font-sans`}>
+        {children}
+      </body>
     </html>
   );
 }

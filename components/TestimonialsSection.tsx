@@ -1,175 +1,162 @@
 "use client";
 
-import { motion, useMotionValue, animate } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
+import { motion, Variants } from "framer-motion";
+import { Card } from "./ui/Card";
 
-const testimonials = [
+const contributions = [
   {
     id: 1,
-    quote:
-      "Abhishek transformed our online presence completely. His technical expertise is unmatched. The website exceeded all our expectations.",
-    project: "Shanaya Training Website",
-    date: "Completed March 2024",
-    author: "Sawrabh",
-    role: "CEO, Shanaya Training",
-    avatar: "S",
-    avatarColor: "bg-blue-600",
+    project: "RecodeHive",
+    title: "Fixed dark mode inconsistencies across key pages",
+    description:
+      "Improved theme behavior across homepage, sponsors, and blog pages to make the interface feel more consistent and reliable.",
+    stack: ["React", "Vite", "Theme UI"],
+    liveUrl: "https://www.recodehive.com/",
+    issueUrl:
+      "https://github.com/recodehive/recode-website/issues?q=is%3Aissue%20state%3Aclosed%20author%3Aabhishekkalme",
+    type: "Open Source",
   },
   {
     id: 2,
-    quote:
-      "Working with Abhishek was a game-changer. He understood our vision perfectly and executed it flawlessly with top-notch React skills.",
-    project: "Blix Media Platform",
-    date: "Completed January 2024",
-    author: "Sanskar",
-    role: "Founder, Blix Media",
-    avatar: "S",
-    avatarColor: "bg-green-600",
+    project: "LearnHub",
+    title: "Added dark mode toggle and fixed a build-breaking JSX issue",
+    description:
+      "Implemented theme switching and resolved a JSX mismatch in TopNav that was causing the Vite build to fail.",
+    stack: ["React", "Vite", "Frontend"],
+    liveUrl: "https://learnhubb.vercel.app/",
+    issueUrl:
+      "https://github.com/souvikpramanikgit/LearnHub/issues?q=is%3Aissue%20state%3Aclosed%20author%3Aabhishekkalme",
+    type: "Contribution",
   },
   {
     id: 3,
-    quote:
-      "The AI background removal tool Abhishek built saved us hundreds of hours. His solution was both innovative and reliable.",
-    project: "AI Background Remover",
-    date: "Completed November 2023",
-    author: "Abhishek Kalme",
-    role: "CTO, TechSolutions Inc",
-    avatar: "E",
-    avatarColor: "bg-purple-600",
+    project: "TravelGrid",
+    title: "Improved navigation layout and added theme switching",
+    description:
+      "Resolved navbar alignment issues and added a dark mode toggle to improve clarity and consistency across the interface.",
+    stack: ["React", "CSS", "Responsive UI"],
+    liveUrl: "https://travel-grid.vercel.app",
+    issueUrl:
+      "https://github.com/Adarsh-Chaubey03/TravelGrid/issues?q=is%3Aissue%20state%3Aclosed%20author%3Aabhishekkalme",
+    type: "Contribution",
   },
 ];
 
-export default function TestimonialsSection() {
-  const marqueeRef = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
-  const [width, setWidth] = useState(0);
-
-  const allTestimonials = [...testimonials, ...testimonials];
-  let animation: any;
-
-  // Calculate marquee width
-  useEffect(() => {
-    if (marqueeRef.current) {
-      setWidth(marqueeRef.current.scrollWidth / 2);
-    }
-  }, []);
-
-  // Animate marquee
-  useEffect(() => {
-    if (!width) return;
-
-    const startAnimation = () => {
-      animation = animate(x, -width, {
-        duration: 15,
-        repeat: Infinity,
-        ease: "linear",
-      });
-    };
-
-    startAnimation();
-
-    const handleMouseEnter = () => animation.stop();
-    const handleMouseLeave = () => startAnimation();
-
-    const marqueeEl = marqueeRef.current;
-    marqueeEl?.addEventListener("mouseenter", handleMouseEnter);
-    marqueeEl?.addEventListener("mouseleave", handleMouseLeave);
-
-    return () => {
-      animation.stop();
-      marqueeEl?.removeEventListener("mouseenter", handleMouseEnter);
-      marqueeEl?.removeEventListener("mouseleave", handleMouseLeave);
-    };
-  }, [width]);
-
-  // Card stagger animation
-  const cardVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, delay: i * 0.15 },
-    }),
+export default function ContributionsSection() {
+  const containerVariants: Variants = {
+    hidden: {},
+    visible: {
+      transition: { staggerChildren: 0.1 },
+    },
   };
 
-  const handleDragEnd = () => {
-    // Resume marquee smoothly after drag/swipe
-    animate(x, -width, { duration: 15, repeat: Infinity, ease: "linear" });
+  const cardVariants: Variants = {
+    hidden: { opacity: 0, y: 18 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.35, ease: "easeOut" },
+    },
   };
 
   return (
-    <section
-      id="testimonials"
-      className="py-20 px-4 rounded-xl bg-slate-800/50"
-    >
-      <div className="max-w-6xl mx-auto text-center mb-16">
-        <motion.h2
-          className="text-4xl font-bold mb-4 text-reveal"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          Client <span className="text-blue-400">Testimonials</span>
-        </motion.h2>
-        <motion.p
-          className="text-gray-400"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          Hear what industry leaders say about working with me
-        </motion.p>
-      </div>
+    <section id="contributions" className="section border-t border-border">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="section-kicker mb-3">Proof of work</p>
+            <h2 className="section-title">Open source work.</h2>
+          </div>
+          <p className="max-w-sm text-xs leading-relaxed text-muted-foreground md:text-sm">
+            Real frontend contributions across public projects, including
+            theming, UI consistency, and React bug fixes.
+          </p>
+        </div>
 
-      {/* Marquee */}
-      <motion.div
-        ref={marqueeRef}
-        className="flex gap-6 cursor-grab"
-        style={{ x }}
-        drag="x"
-        dragConstraints={{ left: -width, right: 0 }}
-        dragElastic={0.1}
-        whileTap={{ cursor: "grabbing" }}
-        onDragEnd={handleDragEnd}
-      >
-        {allTestimonials.map(
-          (
-            { id, quote, project, date, author, role, avatar, avatarColor },
-            index
-          ) => (
-            <motion.div
-              key={id + "-" + index}
-              className="glass-card p-6 rounded-xl w-80 flex-shrink-0 hover:scale-105 transition-transform duration-300"
-              custom={index}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={cardVariants}
-            >
-              <blockquote className="text-gray-300 mb-4 leading-relaxed break-words">
-                &quot;{quote}&quot;
-              </blockquote>
-              <div className="text-sm text-blue-400 mb-4">
-                <div className="font-semibold">{project}</div>
-                <div className="text-gray-500">{date}</div>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div
-                  className={`w-10 h-10 ${avatarColor} rounded-full flex items-center justify-center text-white font-semibold`}
-                >
-                  {avatar}
-                </div>
-                <div>
-                  <div className="font-semibold">{author}</div>
-                  <div className="text-sm text-gray-400">{role}</div>
-                </div>
-              </div>
-            </motion.div>
-          )
-        )}
-      </motion.div>
+        <motion.div
+          className="grid gap-4 md:grid-cols-2 xl:grid-cols-3"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={containerVariants}
+        >
+          {contributions.map(
+            ({
+              id,
+              project,
+              title,
+              description,
+              stack,
+              liveUrl,
+              issueUrl,
+              type,
+            }) => (
+              <motion.div key={id} variants={cardVariants}>
+                <Card className="flex h-full flex-col">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-xs uppercase tracking-wide text-muted-foreground">
+                        {project}
+                      </p>
+                      <h3 className="mt-1 text-base font-semibold text-foreground">
+                        {title}
+                      </h3>
+                    </div>
+
+                    <span className="rounded-full border border-border px-2.5 py-1 text-[11px] text-muted-foreground">
+                      {type}
+                    </span>
+                  </div>
+
+                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                    {description}
+                  </p>
+
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {stack.map((item) => (
+                      <span
+                        key={item}
+                        className="rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    <a
+                      href={liveUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center rounded-full border border-border px-3 py-1.5 text-sm text-foreground transition hover:bg-muted"
+                    >
+                      Live site
+                    </a>
+                    <a
+                      href={issueUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center rounded-full border border-border px-3 py-1.5 text-sm text-foreground transition hover:bg-muted"
+                    >
+                      View issue
+                    </a>
+                  </div>
+                </Card>
+              </motion.div>
+            )
+          )}
+        </motion.div>
+        <div className="mt-6">
+          <a
+            href="https://github.com/abhishekkalme?tab=repositories&q=&type=fork&language="
+            target="_blank"
+            rel="noreferrer"
+            className="text-sm text-muted-foreground underline underline-offset-4 transition hover:text-foreground"
+          >
+            View more contributions on GitHub
+          </a>
+        </div>
+      </div>
     </section>
   );
 }

@@ -57,9 +57,9 @@ export default function Footer({ scrollToSection }: FooterProps) {
 
   return (
     <>
-      <footer className="bg-slate-800 border rounded-lg mb-12  py-12 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-8">
+      <footer className="section border-t border-border pb-10">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid gap-8 md:grid-cols-3">
             {/* Brand */}
             <motion.div
               variants={fadeUp}
@@ -68,17 +68,16 @@ export default function Footer({ scrollToSection }: FooterProps) {
               viewport={{ once: true }}
               custom={0}
             >
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <span className="font-bold text-sm">AK</span>
+              <div className="mb-4 flex items-center gap-2">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-xs font-semibold">
+                  AK
                 </div>
-                <span className="font-bold text-lg">Abhishek Kalme</span>
+                <span className="text-sm font-medium">Abhishek Kalme</span>
               </div>
-              <p className="text-gray-400 text-sm leading-relaxed mb-4">
-                Crafting exceptional digital experiences with cutting-edge technology
-                and innovative design solutions that drive real business results.
+              <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+                Building web apps that are clean, fast, and pleasant to use.
               </p>
-              <div className="flex space-x-4">
+              <div className="flex gap-3">
                 {socialLinks.map((social, index) => (
                   <a
                     key={index}
@@ -86,9 +85,9 @@ export default function Footer({ scrollToSection }: FooterProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.label}
-                    className="text-gray-400 hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+                    className="text-muted-foreground hover:text-foreground transition-colors duration-150"
                   >
-                    <social.icon className="w-5 h-5" />
+                    <social.icon className="h-4 w-4" />
                   </a>
                 ))}
               </div>
@@ -102,14 +101,16 @@ export default function Footer({ scrollToSection }: FooterProps) {
               viewport={{ once: true }}
               custom={1}
             >
-              <h4 className="font-semibold mb-4">• Navigation</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
+              <h4 className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                Navigation
+              </h4>
+              <ul className="space-y-1 text-sm text-muted-foreground">
                 {navLinks.map((link) => (
                   <li key={link.id}>
                     <button
                       onClick={() => scrollToSection(link.id)}
                       aria-label={`Go to ${link.label}`}
-                      className="hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+                      className="hover:text-foreground transition-colors duration-150"
                     >
                       {link.label}
                     </button>
@@ -126,52 +127,30 @@ export default function Footer({ scrollToSection }: FooterProps) {
               viewport={{ once: true }}
               custom={2}
             >
-              <h4 className="font-semibold mb-4">• Stay Updated</h4>
-              <p className="text-sm text-gray-400 mb-4">
-                Join my newsletter for exclusive content, latest projects, and tech
-                insights delivered straight to your inbox.
-              </p>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault()
-                  alert('Subscribed! 🚀')
-                }}
-                className="flex"
-              >
-                <input
-                  type="email"
-                  placeholder="Your email address"
-                  required
-                  aria-label="Email address"
-                  className="flex-1 bg-slate-700 border border-slate-600 rounded-l-lg px-4 py-2 text-sm text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 transition-colors duration-200"
-                />
-                <button
-                  type="submit"
-                  className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-r-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  Subscribe
-                </button>
-              </form>
-              <p className="text-xs text-gray-500 mt-2">
-                No spam ever. Unsubscribe anytime.
+              <h4 className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                Availability
+              </h4>
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                Open to freelance projects and collaborations. If you have an
+                idea in mind, send me a message—I’m friendly, I promise.
               </p>
             </motion.div>
           </div>
 
           {/* Footer Bottom */}
           <motion.div
-            className="border-t border-slate-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400"
+            className="mt-8 flex flex-col items-start justify-between gap-3 border-t border-border pt-6 text-sm text-muted-foreground md:flex-row md:items-center"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: true }}
           >
-            <div>© 2025 Abhishek Kalme. All rights reserved.</div>
-            <div className="flex space-x-6 mt-4 md:mt-0">
+            <div>© {new Date().getFullYear()} Abhishek Kalme.</div>
+            <div className="mt-1 flex gap-4 md:mt-0">
               {footerLinks.map((link, index) => (
                 <span
                   key={index}
-                  className="hover:text-white cursor-pointer transition-colors duration-200"
+                  className="cursor-default hover:text-foreground transition-colors duration-150"
                 >
                   {link}
                 </span>
@@ -192,9 +171,9 @@ export default function Footer({ scrollToSection }: FooterProps) {
             : { opacity: 0, scale: 0 }
         }
         transition={{ duration: 0.3 }}
-        className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg z-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="fixed bottom-6 right-6 z-50 flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background text-xs text-muted-foreground shadow-sm focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
       >
-        <ArrowUp className="w-5 h-5" />
+        <ArrowUp className="h-3.5 w-3.5" />
       </motion.button>
     </>
   )

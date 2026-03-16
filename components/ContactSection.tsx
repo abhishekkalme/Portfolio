@@ -1,76 +1,90 @@
-'use client'
+"use client";
 
-import { motion } from 'framer-motion'
+import { motion } from "framer-motion";
 import {
   MessageCircle,
   Globe,
   Phone,
+  Mail,
+  MapPin,
+  Github,
+  Linkedin,
+  Twitter,
+  Instagram,
+  Send,
+  ExternalLink,
+} from "lucide-react";
+import SocialPlatformLink from "./SocialPlatformLink";
+import DirectContactMethod from "./DirectContactMethod";
+
+const lucideIcons = {
   Github,
   Linkedin,
   Twitter,
   Instagram,
   Send,
   Mail,
-  ExternalLink,
+  MessageCircle,
   MapPin,
-} from 'lucide-react'
+  ExternalLink,
+};
 
 const socialPlatforms = [
   {
-    name: 'GitHub',
-    icon: Github,
-    color: 'bg-slate-800 hover:bg-slate-700',
-    link: 'https://github.com/abhishekkalme',
+    name: "GitHub",
+    icon: "Github",
+    color: "",
+    link: "https://github.com/abhishekkalme",
   },
   {
-    name: 'LinkedIn',
-    icon: Linkedin,
-    color: 'bg-blue-600 hover:bg-blue-700',
-    link: 'https://www.linkedin.com/in/abhishek-kalme/',
+    name: "LinkedIn",
+    icon: "Linkedin",
+    color: "",
+    link: "https://www.linkedin.com/in/abhishek-kalme/",
   },
   {
-    name: 'Twitter',
-    icon: Twitter,
-    color: 'bg-cyan-500 hover:bg-cyan-600',
-    link: 'https://twitter.com/Abhishek_kalme',
+    name: "Twitter",
+    icon: "Twitter",
+    color: "",
+    link: "https://twitter.com/Abhishek_kalme",
   },
   {
-    name: 'Instagram',
-    icon: Instagram,
-    color: 'bg-pink-600 hover:bg-pink-700',
-    link: 'https://instagram.com/',
+    name: "Instagram",
+    icon: "Instagram",
+    color: "",
+    link: "https://instagram.com/",
   },
   {
-    name: 'Telegram',
-    icon: Send,
-    color: 'bg-blue-500 hover:bg-blue-600',
-    link: 'https://t.me/ur_abd',
+    name: "Telegram",
+    icon: "Send",
+    color: "",
+    link: "https://t.me/ur_abd",
   },
-]
+];
 
 const contactMethods = [
   {
-    icon: Mail,
-    color: 'text-blue-400',
-    label: 'Email Me',
-    value: 'abhishekkalme0@gmail.com',
-    link: 'mailto:abhishekkalme0@gmail.com',
+    icon: "Mail",
+    color: "text-muted-foreground",
+    label: "Email Me",
+    value: "abhishekkalme0@gmail.com",
+    link: "mailto:abhishekkalme0@gmail.com",
   },
   {
-    icon: MessageCircle,
-    color: 'text-green-400',
-    label: 'WhatsApp',
-    value: '+91 XXXXXXXXXX',
-    link: 'https://wa.me/91XXXXXXXXXX',
+    icon: "MessageCircle",
+    color: "text-muted-foreground",
+    label: "WhatsApp",
+    value: "+91 XXXXXXXXXX",
+    link: "https://wa.me/91XXXXXXXXXX",
   },
   {
-    icon: MapPin,
-    color: 'text-orange-400',
-    label: 'Location',
-    value: 'Indore, Madhya Pradesh, India',
-    link: 'https://www.google.com/maps?q=Indore,+Madhya Pradesh,+India',
+    icon: "MapPin",
+    color: "text-muted-foreground",
+    label: "Location",
+    value: "Indore, Madhya Pradesh, India",
+    link: "https://www.google.com/maps?q=Indore,+Madhya Pradesh,+India",
   },
-]
+];
 
 export default function ContactSection() {
   // Card animation variants
@@ -81,77 +95,74 @@ export default function ContactSection() {
       y: 0,
       transition: { duration: 0.6, delay: i * 0.15 },
     }),
-  }
+  };
 
   return (
-    <section id="contact" className="py-20 px-4">
-      <div className="max-w-6xl mx-auto">
+    <section id="contact" className="section border-t border-border">
+      <div className="mx-auto max-w-6xl">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <motion.div
-            className="w-16 h-16 bg-blue-600 rounded-full mx-auto mb-6 flex items-center justify-center"
+            className="mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-full border border-border"
             initial={{ scale: 0 }}
             whileInView={{ scale: 1 }}
-            transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+            transition={{ type: "spring", stiffness: 200, damping: 15 }}
             viewport={{ once: true }}
           >
-            <MessageCircle className="w-8 h-8 text-white" />
+            <MessageCircle className="w-6 h-6" />
           </motion.div>
 
           <motion.h2
-            className="text-4xl font-bold mb-4"
+            className="section-title mb-3"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            Let&apos;s <span className="text-blue-400">Connect</span>
+            Have a project in mind?
           </motion.h2>
 
           <motion.p
-            className="text-gray-400 max-w-2xl mx-auto"
+            className="mx-auto max-w-2xl text-sm leading-relaxed text-muted-foreground"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            Whether you have a project in mind or just want to chat tech, I&apos;d
-            love to hear from you!
+            If you want to build something clear, fast, and useful, send a quick
+            note. A couple of lines is enough—I’ll reply soon.
           </motion.p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12">
+        <div className="subtle-card grid gap-10 px-6 py-8 sm:px-8 sm:py-10 md:grid-cols-2">
           {/* Find Me Online */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <h3 className="text-xl font-semibold mb-6 flex items-center">
-              <Globe className="w-5 h-5 mr-2 text-blue-400" />
-              Find Me Online
+            <h3 className="mb-4 flex items-center text-sm font-semibold">
+              <Globe className="mr-2 h-4 w-4 text-muted-foreground" />
+              Find me online
             </h3>
 
             <div className="overflow-hidden relative w-full">
-              <motion.div
-                className="flex whitespace-nowrap gap-6"
-                animate={{ x: ['0%', '-50%'] }}
-                transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-              >
-                {[...socialPlatforms, ...socialPlatforms].map((platform, idx) => (
-                  <a
-                    key={idx}
-                    href={platform.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Visit my ${platform.name}`}
-                    className={`${platform.color} p-4 rounded-xl text-center cursor-pointer flex-shrink-0 hover:scale-105 transition-all duration-300`}
-                  >
-                    <platform.icon className="w-8 h-8 mx-auto mb-2" />
-                    <div className="font-medium">{platform.name}</div>
-                  </a>
-                ))}
-              </motion.div>
+              <div className="flex flex-wrap gap-2">
+                {socialPlatforms.map((platform, idx) => {
+                  const Icon =
+                    lucideIcons[platform.icon as keyof typeof lucideIcons];
+                  return (
+                    <SocialPlatformLink
+                      key={idx}
+                      name={platform.name}
+                      icon={Icon}
+                      color={platform.color}
+                      link={platform.link}
+                      idx={idx}
+                    />
+                  );
+                })}
+              </div>
             </div>
           </motion.div>
 
@@ -161,60 +172,52 @@ export default function ContactSection() {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <h3 className="text-xl font-semibold mb-6 flex items-center">
-              <Phone className="w-5 h-5 mr-2 text-green-400" />
-              Direct Contact
+            <h3 className="mb-4 flex items-center text-sm font-semibold">
+              <Phone className="mr-2 h-4 w-4 text-muted-foreground" />
+              Direct contact
             </h3>
 
             <div className="space-y-4">
-              {contactMethods.map((method, idx) => (
-                <motion.a
-                  key={idx}
-                  href={method.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`${method.label}: ${method.value}`}
-                  className="glass-card p-4 rounded-xl flex items-center justify-between hover:bg-slate-700/50 transition-all duration-200 cursor-pointer group"
-                  custom={idx}
-                  variants={cardVariants}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                >
-                  <div className="flex items-center space-x-3">
-                    <method.icon className={`w-5 h-5 ${method.color}`} />
-                    <div>
-                      <div className="text-sm text-gray-400">{method.label}</div>
-                      <div className="font-medium break-words">
-                        {method.value}
-                      </div>
-                    </div>
-                  </div>
-                  <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-white transition-colors duration-200" />
-                </motion.a>
-              ))}
+              {contactMethods.map((method, idx) => {
+                const Icon =
+                  lucideIcons[method.icon as keyof typeof lucideIcons];
+                return (
+                  <DirectContactMethod
+                    key={idx}
+                    icon={Icon}
+                    color={method.color}
+                    label={method.label}
+                    value={method.value}
+                    link={method.link}
+                    idx={idx}
+                    cardVariants={cardVariants}
+                  />
+                );
+              })}
             </div>
           </motion.div>
         </div>
 
         {/* CTA */}
         <motion.div
-          className="text-center mt-12"
+          className="mt-10 text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <p className="text-gray-400 mb-6">Ready to start your project?</p>
+          <p className="mb-3 text-sm text-muted-foreground">
+            Email is easiest for me (and I reply quickly).
+          </p>
           <a
             href="mailto:abhishekkalme0@gmail.com"
-            className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2 mx-auto hover:scale-105"
+            className="button button-primary mx-auto gap-2"
           >
-            <Mail className="w-4 h-4" />
-            <span>Send Me An Email</span>
+            <Mail className="h-4 w-4" />
+            <span>Send me an email</span>
           </a>
         </motion.div>
       </div>
     </section>
-  )
+  );
 }

@@ -1,78 +1,26 @@
 "use client";
 
-import { Monitor, Database, Cloud, Bot, Layers } from "lucide-react";
+import { Monitor, Sparkles, ShieldCheck, Cloud } from "lucide-react";
 import { motion } from "framer-motion";
 
 const skillCards = [
   {
-    icon: Monitor,
-    title: "Frontend Development",
-    color: "bg-blue-600",
-    skills: [
-      "React",
-      "Next.js",
-      "JavaScript/TypeScript",
-      "Tailwind CSS",
-      "Framer Motion",
-      "Vite",
-      "Axios",
-      "React Context",
-      "React Router",
-      "UI/UX Best Practices",
-    ],
+    icon: Sparkles,
+    title: "Clarity-first UI",
+    color: "",
+    skills: ["Simple flows", "Good copy", "Accessible components", "Responsive layouts"],
   },
   {
-    icon: Database,
-    title: "Backend Development",
-    color: "bg-green-600",
-    skills: [
-      "Node.js & Express.js",
-      "MongoDB & Mongoose",
-      "REST APIs & GraphQL",
-      "Authentication & Authorization (JWT, Passport.js)",
-      "Cloudinary & File Storage",
-      "Database Design & ORM Concepts",
-    ],
+    icon: ShieldCheck,
+    title: "Reliable engineering",
+    color: "",
+    skills: ["Type safety", "API design", "Testing mindset", "Performance awareness"],
   },
   {
     icon: Cloud,
-    title: "DevOps & Cloud",
-    color: "bg-purple-600",
-    skills: [
-      "Git & GitHub",
-      "CI/CD Pipelines",
-      "Vercel & Netlify",
-      "Docker & Containerization",
-      "Cloud Deployment (AWS/GCP basics)",
-      "Domain & SSL Management",
-      "Monitoring & Logging",
-    ],
-  },
-  {
-    icon: Bot,
-    title: "Generative AI & LLMs",
-    color: "bg-pink-600",
-    skills: [
-      "LangChain & LLMs",
-      "OpenAI GPT/ChatGPT Integration",
-      "Prompt Engineering",
-      "FastAPI for AI APIs",
-      "Data Visualization & Dashboards",
-      "Generative AI Workflows",
-    ],
-  },
-  {
-    icon: Layers,
-    title: "System Design & Architecture",
-    color: "bg-orange-600",
-    skills: [
-      "Scalable Web Architecture",
-      "REST & Microservices Design",
-      "Database Schema Design",
-      "Load Balancing & Caching Strategies",
-      "High Availability & Fault Tolerance",
-      "Design Patterns & Best Practices",
-    ],
+    title: "Shipping & deployment",
+    color: "",
+    skills: ["CI/CD basics", "Vercel/Netlify", "Docker (when needed)", "Logging & monitoring"],
   },
 ];
 
@@ -92,38 +40,34 @@ const itemVariants = {
 
 export default function AboutSection() {
   return (
-    <section id="about" className="py-20 px-4 bg-gray-900">
-      <div className="max-w-6xl mx-auto">
+    <section id="about" className="section border-t border-border">
+      <div className="mx-auto flex max-w-6xl flex-col gap-10 md:flex-row">
         {/* Section Header */}
         <motion.div
-          className="text-center mb-16"
+          className="md:w-1/3"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={containerVariants}
         >
-          <motion.h2
-            className="text-4xl font-bold mb-4 text-white"
-            variants={itemVariants}
-          >
-            About <span className="text-blue-400">Me</span>
+          <motion.p className="section-kicker mb-3" variants={itemVariants}>
+            About my work
+          </motion.p>
+          <motion.h2 className="section-title mb-4" variants={itemVariants}>
+            I care about making complex things feel simple, fast, and reliable.
           </motion.h2>
-          <motion.div
-            className="w-16 h-1 bg-blue-400 mx-auto mb-6"
-            variants={itemVariants}
-          />
           <motion.p
-            className="text-gray-300 max-w-2xl mx-auto"
+            className="text-sm leading-relaxed text-muted-foreground"
             variants={itemVariants}
           >
-            Full-stack developer with a passion for creating exceptional digital
-            experiences and sharing knowledge through content creation.
+            I work across the stack and try to make every part of the experience
+            a little smoother—from the UI and copy to the API and deployment.
           </motion.p>
         </motion.div>
 
         {/* Main Content */}
         <motion.div
-          className="grid md:grid-cols-2 gap-12 items-start"
+          className="grid flex-1 gap-10 md:grid-cols-2 md:items-start"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -143,45 +87,41 @@ export default function AboutSection() {
           >
             {/* Heading */}
             <motion.h3
-              className="text-2xl font-bold text-white"
+              className="text-base font-semibold"
               variants={{
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
               }}
             >
-              Crafting Digital Excellence
+              How I like to work
             </motion.h3>
 
             {/* Paragraphs */}
             <motion.p
-              className="text-gray-300 leading-relaxed"
+              className="text-base leading-relaxed text-muted-foreground"
               variants={{
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
               }}
             >
-              I'm a passionate full-stack developer with expertise in both
-              frontend and backend technologies. I specialize in building
-              performant, accessible, and visually stunning web applications.
+              Clear interfaces, sensible backend design, and a collaboration
+              style that’s straightforward, kind, and honest about trade-offs.
             </motion.p>
 
             <motion.p
-              className="text-gray-300 leading-relaxed"
+              className="text-base leading-relaxed text-muted-foreground"
               variants={{
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
               }}
             >
-              My DevOps skills ensure seamless deployment and hosting solutions
-              using platforms like Vercel, Netlify, and custom domain
-              configurations. I'm also an active content creator, sharing my
-              knowledge through tutorials, articles, and open-source
-              contributions.
+              I prefer practical tools, clean code, and decisions that make a
+              product easier to maintain months after launch—not just on day one.
             </motion.p>
 
             {/* Stats */}
             <motion.div
-              className="flex items-center space-x-4"
+              className="flex items-baseline gap-4 rounded-md border border-dashed border-border px-4 py-3"
               variants={{
                 hidden: { opacity: 0, y: 20 },
                 visible: {
@@ -192,14 +132,13 @@ export default function AboutSection() {
               }}
               whileHover={{ scale: 1.05 }}
             >
-              <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center shadow-lg">
-                <Monitor className="w-6 h-6 text-white" />
+              <div className="flex h-9 w-9 items-center justify-center rounded-full border border-border">
+                <Monitor className="h-5 w-5" />
               </div>
               <div>
-                <div className="text-2xl font-bold text-white">10+</div>
-                <div className="text-sm text-gray-400">Projects</div>
-                <div className="text-xs text-gray-500">
-                  Delivered successfully
+                <div className="text-sm font-medium">10+ projects</div>
+                <div className="text-xs text-muted-foreground">
+                  Shipped end‑to‑end, from idea to production.
                 </div>
               </div>
             </motion.div>
@@ -207,37 +146,53 @@ export default function AboutSection() {
 
           {/* Right Side Skill Cards */}
           <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-6"
+          className="grid grid-cols-1 gap-4"
             variants={containerVariants}
           >
+            <div className="glass-card p-5">
+              <p className="section-kicker mb-3">Core strengths</p>
+              <ul className="space-y-2 text-sm">
+                <li>
+                  <span className="font-medium">Clarity</span>{" "}
+                  <span className="text-muted-foreground">
+                    — interfaces that feel obvious in the best way.
+                  </span>
+                </li>
+                <li>
+                  <span className="font-medium">Performance</span>{" "}
+                  <span className="text-muted-foreground">
+                    — fast paths, smooth interactions, careful loading.
+                  </span>
+                </li>
+                <li>
+                  <span className="font-medium">Craft</span>{" "}
+                  <span className="text-muted-foreground">
+                    — thoughtful details and maintainable code.
+                  </span>
+                </li>
+              </ul>
+            </div>
+
             {skillCards.map((card, index) => (
               <motion.div
                 key={index}
-                className="glass-card p-6 rounded-xl bg-gray-800 hover:scale-105 hover:shadow-xl transition-transform duration-300 group relative"
+                className="glass-card relative p-5"
                 variants={itemVariants}
-                whileHover={{ scale: 1.05 }}
               >
-                {/* Glow effect behind card */}
-                <div
-                  className="absolute inset-0 rounded-xl pointer-events-none 
-                      bg-gradient-to-tr from-blue-400 via-purple-400 to-pink-400 
-                      opacity-0 group-hover:opacity-20 blur-3xl transition-opacity duration-500"
-                ></div>
-
                 {/* Icon */}
                 <div
-                  className={`w-12 h-12 ${card.color} rounded-lg flex items-center justify-center mb-4 transition-transform duration-300 group-hover:rotate-12 group-hover:shadow-lg group-hover:shadow-${card.color}-500`}
+                  className="mb-3 flex h-9 w-9 items-center justify-center rounded-full border border-border"
                 >
-                  <card.icon className="w-6 h-6 text-white" />
+                  <card.icon className="h-4 w-4" />
                 </div>
 
                 {/* Title */}
-                <h4 className="font-semibold mb-3 text-white">{card.title}</h4>
+                <h4 className="mb-3 text-sm font-semibold">{card.title}</h4>
 
                 {/* Skills List */}
-                <ul className="text-sm text-gray-300 space-y-2">
+                <ul className="text-xs text-muted-foreground space-y-1">
                   <motion.ul
-                    className="text-sm text-gray-300 space-y-2"
+                    className="space-y-1"
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.2 }}
@@ -250,7 +205,7 @@ export default function AboutSection() {
                     {card.skills.map((skill, skillIndex) => (
                       <motion.li
                         key={skillIndex}
-                        className="flex items-center space-x-2 cursor-pointer group-hover:text-blue-400 transition-colors duration-200"
+                        className="flex items-center gap-2"
                         variants={{
                           hidden: { opacity: 0, x: -20 },
                           visible: {
@@ -259,9 +214,8 @@ export default function AboutSection() {
                             transition: { type: "spring", stiffness: 300 },
                           },
                         }}
-                        whileHover={{ scale: 1.05, x: 5 }}
                       >
-                        <span className="text-blue-400 font-bold">•</span>
+                        <span className="text-xs text-muted-foreground">•</span>
                         <span>{skill}</span>
                       </motion.li>
                     ))}
