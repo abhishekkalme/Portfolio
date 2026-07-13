@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Download, ChevronDown } from "lucide-react";
+import { track } from "@vercel/analytics";
 
 interface HeroSectionProps {
   scrollToSection: (sectionId: string) => void;
@@ -50,6 +51,7 @@ export default function HeroSection({ scrollToSection }: HeroSectionProps) {
               download
               aria-label="Download resume"
               className="button button-primary gap-2"
+              onClick={() => track("resume_download")}
             >
               <Download className="h-4 w-4" />
               <span>Download resume</span>

@@ -33,17 +33,18 @@ const projects = [
   },
   {
     id: 3,
-    title: 'Portfolio Website',
+    title: 'MindCare AI',
     description:
-      'Designed and built this portfolio with intentional typography, spacing, and a clear story.',
+      'MindCare AI is a mental wellness platform designed to provide a safe, AI-guided space for emotional support, journaling, and holistic self-care.',
     highlight:
-      'Focused on a calm reading experience, strong hierarchy, and a layout that works just as well on smaller screens.',
-    image: '/Portfolio.png',
-    tags: ['Next.js', 'Tailwind CSS', 'Responsive Design', 'React.js'],
+      'Built with a focus on privacy and user agency, it leverages advanced AI models to offer personalized insights and supportive companionship.',
+    image: '/mw.png',
+    tags: ['Next.js', 'Vector DB', 'Caching', 'LLM'],
     tagColors: ['bg-blue-600', 'bg-green-600', 'bg-purple-600', 'bg-orange-600'],
-    codeLink: 'https://github.com/abhishekkalme/Portfolio',
-    demoLink: 'https://abhishek-portfolio25.vercel.app',
+    codeLink: 'https://github.com/abhishekkalme/Mental-Wellness-Support-Agent-',
+    demoLink: 'https://mental-wellness-support-agent.vercel.app/',
   },
+  
   {
     id: 4,
     title: 'Redis-Based-API-Rate-Limiter',
@@ -55,7 +56,20 @@ const projects = [
     tags: ['Node.js', 'Redis', 'API', 'Rate Limiting'],
     tagColors: ['bg-blue-600', 'bg-green-600', 'bg-purple-600', 'bg-orange-600'],
     codeLink: 'https://github.com/abhishekkalme/Redis-Based-API-Rate-Limiter',
-    demoLink: '',
+    demoLink: 'https://ratelimiter.up.railway.app/',
+  },
+  {
+    id: 5,
+    title: 'Portfolio Website',
+    description:
+      'Designed and built this portfolio with intentional typography, spacing, and a clear story.',
+    highlight:
+      'Focused on a calm reading experience, strong hierarchy, and a layout that works just as well on smaller screens.',
+    image: '/Portfolio.png',
+    tags: ['Next.js', 'Tailwind CSS', 'Responsive Design', 'React.js'],
+    tagColors: ['bg-blue-600', 'bg-green-600', 'bg-purple-600', 'bg-orange-600'],
+    codeLink: 'https://github.com/abhishekkalme/Portfolio',
+    demoLink: 'https://abhishek-portfolio25.vercel.app',
   },
 ];
 

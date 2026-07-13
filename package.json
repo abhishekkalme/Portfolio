@@ -10,6 +10,7 @@
     "lint:fix": "eslint . --ext .js,.ts,.tsx --fix"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "clsx": "^2.0.0",
     "framer-motion": "^12.23.12",
     "lucide-react": "^0.542.0",

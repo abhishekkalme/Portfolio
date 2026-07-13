@@ -81,8 +81,8 @@ const contactMethods = [
     icon: "MapPin",
     color: "text-muted-foreground",
     label: "Location",
-    value: "Indore, Madhya Pradesh, India",
-    link: "https://www.google.com/maps?q=Indore,+Madhya Pradesh,+India",
+    value: "Khargone, Madhya Pradesh, India",
+    link: "https://www.google.com/maps?q=Khargone,+Madhya Pradesh,+India",
   },
 ];
 

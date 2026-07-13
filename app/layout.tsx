@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Fraunces } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const sans = Inter({
@@ -72,6 +73,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${sans.variable} ${serif.variable} font-sans`}>
         {children}
+        <Analytics />
       </body>
     </html>
   );
