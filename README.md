@@ -29,12 +29,19 @@ High-level folders:
 - `app/`
   - `layout.tsx` – root HTML + fonts + metadata
   - `page.tsx` – home page composition (section order)
+  - `blog/` – blog index + per-post pages (App Router)
   - `globals.css` – design tokens and base styles
+  - `robots.ts`, `sitemap.ts`, `rss.xml/` – SEO / feed routes
 - `components/`
   - `Navigation.tsx`, `Footer.tsx` – layout
-  - `HeroSection.tsx`, `AboutSection.tsx`, `SkillsSection.tsx`, `ProjectsSection.tsx`, `LmsCaseStudySection.tsx`, `ProcessSection.tsx`, `TestimonialsSection.tsx`, `ContactSection.tsx` – page sections
-  - `SocialPlatformLink.tsx`, `DirectContactMethod.tsx` – small contact-specific components
+  - `HeroSection.tsx`, `AboutSection.tsx`, `SkillsSection.tsx`, `ProjectsSection.tsx`, `LmsCaseStudySection.tsx`, `TestimonialsSection.tsx`, `ContactSection.tsx`, `BlogSection.tsx` – page sections
+  - `PortfolioPage.tsx` – home page section composition
+  - `SocialPlatformLink.tsx` – small contact-specific component
   - `ui/Card.tsx` – small card primitive used in a few sections
+- `lib/`
+  - `blog.ts` – MDX blog loading (frontmatter, reading time)
+  - `site.ts` – site-wide config (name, URL, socials, OG image)
+- `content/blog/` – MDX blog posts
 - `hooks/`
   - `useActiveSection.ts` – tracks which section is currently in view
 - `utils/`
@@ -51,7 +58,6 @@ Where to update key copy:
 - Skills / stack overview – `SkillsSection.tsx`
 - Projects blurbs – `ProjectsSection.tsx`
 - LMS case study – `LmsCaseStudySection.tsx`
-- Process / how you work – `ProcessSection.tsx`
 - Testimonials – `TestimonialsSection.tsx`
 - Contact CTA – `ContactSection.tsx`
 - Footer bio + availability – `Footer.tsx`
@@ -61,12 +67,12 @@ Where to update key copy:
 Current story arc in `app/page.tsx`:
 
 1. `HeroSection`
-2. `AboutSection`
-3. `SkillsSection`
-4. `ProjectsSection`
-5. `LmsCaseStudySection` (featured project)
-6. `ProcessSection`
-7. `TestimonialsSection`
+2. `ProjectsSection`
+3. `LmsCaseStudySection` (featured project)
+4. `AboutSection`
+5. `SkillsSection`
+6. `TestimonialsSection`
+7. `BlogSection`
 8. `ContactSection`
 9. `Footer`
 
