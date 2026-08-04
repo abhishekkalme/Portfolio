@@ -1,47 +1,51 @@
-'use client'
+"use client";
 
-import { useState, useRef, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
+import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
 
 interface NavigationProps {
-  activeSection: string
-  scrollToSection: (sectionId: string) => void
+  activeSection: string;
+  scrollToSection: (sectionId: string) => void;
 }
 
 const navItems = [
-  { id: 'home', label: 'Home' },
-  { id: 'about', label: 'About' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'contributions', label: 'Contributions' },
-  { id: 'contact', label: 'Contact' },
-]
+  { id: "home", label: "Home" },
+  { id: "projects", label: "Projects" },
+  { id: "about", label: "About" },
+  { id: "skills", label: "Skills" },
+  { id: "contributions", label: "Contributions" },
+  { id: "blog", label: "Blog", href: "/blog" },
+  { id: "contact", label: "Contact" },
+];
 
 export default function Navigation({ activeSection, scrollToSection }: NavigationProps) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const menuRef = useRef<HTMLDivElement | null>(null)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement | null>(null);
 
-  const handleNavClick = (sectionId: string) => {
-    scrollToSection(sectionId)
-    setIsMenuOpen(false)
-  }
+  const handleNavClick = (sectionId: string, href?: string) => {
+    if (href) {
+      window.location.href = href;
+    } else {
+      scrollToSection(sectionId);
+    }
+    setIsMenuOpen(false);
+  };
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsMenuOpen(false)
+        setIsMenuOpen(false);
       }
     }
-
     if (isMenuOpen) {
-      document.addEventListener('mousedown', handleClickOutside)
+      document.addEventListener("mousedown", handleClickOutside);
     }
-
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [isMenuOpen])
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMenuOpen]);
 
   return (
     <nav className="fixed inset-x-0 top-0 z-40 border-b border-border bg-background/90 backdrop-blur-md">
@@ -49,7 +53,7 @@ export default function Navigation({ activeSection, scrollToSection }: Navigatio
         <div className="flex h-14 items-center justify-between gap-4">
           <motion.button
             type="button"
-            onClick={() => handleNavClick('home')}
+            onClick={() => handleNavClick("home")}
             className="flex items-baseline gap-2 text-sm font-medium tracking-[0.25em] uppercase text-muted-foreground"
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -63,12 +67,12 @@ export default function Navigation({ activeSection, scrollToSection }: Navigatio
             {navItems.map((item) => (
               <button
                 key={item.id}
-                onClick={() => handleNavClick(item.id)}
-                aria-current={activeSection === item.id ? 'page' : undefined}
+                onClick={() => handleNavClick(item.id, item.href)}
+                aria-current={activeSection === item.id ? "page" : undefined}
                 className={`relative pb-1 transition-colors ${
                   activeSection === item.id
-                    ? 'text-foreground'
-                    : 'text-muted-foreground hover:text-foreground'
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {item.label}
@@ -101,14 +105,13 @@ export default function Navigation({ activeSection, scrollToSection }: Navigatio
               className="fixed inset-0 z-30 bg-black/10"
               onClick={() => setIsMenuOpen(false)}
             />
-
             <motion.div
               ref={menuRef}
               key="menu"
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2, ease: 'easeOut' }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
               className="absolute inset-x-4 top-14 z-40 rounded-md border border-border bg-background shadow-sm md:hidden"
             >
               <div className="px-4 py-3 text-[11px] font-medium tracking-[0.2em] text-muted-foreground uppercase">
@@ -118,11 +121,11 @@ export default function Navigation({ activeSection, scrollToSection }: Navigatio
                 {navItems.map((item) => (
                   <button
                     key={item.id}
-                    onClick={() => handleNavClick(item.id)}
+                    onClick={() => handleNavClick(item.id, item.href)}
                     className={`block w-full rounded-md px-3 py-2 text-left text-sm ${
                       activeSection === item.id
-                        ? 'bg-muted text-foreground'
-                        : 'text-muted-foreground hover:bg-muted'
+                        ? "bg-muted text-foreground"
+                        : "text-muted-foreground hover:bg-muted"
                     }`}
                   >
                     {item.label}
@@ -134,5 +137,5 @@ export default function Navigation({ activeSection, scrollToSection }: Navigatio
         )}
       </AnimatePresence>
     </nav>
-  )
+  );
 }

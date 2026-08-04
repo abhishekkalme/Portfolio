@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, Variants } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 import { Card } from "./ui/Card";
 
 const contributions = [
@@ -42,42 +43,30 @@ const contributions = [
   },
 ];
 
+const containerVariants: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
+
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 14 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } },
+};
+
 export default function TestimonialsSection() {
-  const containerVariants: Variants = {
-    hidden: {},
-    visible: {
-      transition: { staggerChildren: 0.1 },
-    },
-  };
-
-  const cardVariants: Variants = {
-    hidden: { opacity: 0, y: 18 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.35, ease: "easeOut" },
-    },
-  };
-
   return (
     <section id="contributions" className="section border-t border-border">
       <div className="mx-auto max-w-6xl">
-        <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="section-kicker mb-3">Proof of work</p>
-            <h2 className="section-title">Open source work.</h2>
-          </div>
-          <p className="max-w-sm text-xs leading-relaxed text-muted-foreground md:text-sm">
-            Real frontend contributions across public projects, including
-            theming, UI consistency, and React bug fixes.
-          </p>
+        <div className="mb-12 max-w-3xl">
+          <p className="section-kicker mb-4">Proof of work</p>
+          <h2 className="section-title">Open source contributions.</h2>
         </div>
 
         <motion.div
-          className="grid gap-4 md:grid-cols-2 xl:grid-cols-3"
+          className="grid gap-5 md:grid-cols-2 xl:grid-cols-3"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.15 }}
           variants={containerVariants}
         >
           {contributions.map(
@@ -92,43 +81,42 @@ export default function TestimonialsSection() {
               type,
             }) => (
               <motion.div key={id} variants={cardVariants}>
-                <Card className="flex h-full flex-col">
+                <Card className="group flex h-full flex-col transition-colors hover:bg-muted">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <p className="text-xs uppercase tracking-wide text-muted-foreground">
+                      <p className="text-[11px] uppercase tracking-wide text-muted-foreground">
                         {project}
                       </p>
-                      <h3 className="mt-1 text-base font-semibold text-foreground">
+                      <h3 className="mt-1.5 font-serif text-lg leading-snug tracking-tight">
                         {title}
                       </h3>
                     </div>
-
-                    <span className="rounded-full border border-border px-2.5 py-1 text-[11px] text-muted-foreground">
+                    <span className="shrink-0 rounded-full border border-border px-2.5 py-1 text-[11px] text-muted-foreground">
                       {type}
                     </span>
                   </div>
 
-                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                     {description}
                   </p>
 
-                  <div className="mt-4 flex flex-wrap gap-2">
+                  <div className="mt-4 flex flex-wrap gap-1.5">
                     {stack.map((item) => (
                       <span
                         key={item}
-                        className="rounded-full border border-border px-2.5 py-1 text-xs text-muted-foreground"
+                        className="rounded-full border border-border px-2 py-0.5 text-xs text-muted-foreground"
                       >
                         {item}
                       </span>
                     ))}
                   </div>
 
-                  <div className="mt-6 flex flex-wrap gap-2">
+                  <div className="mt-5 flex flex-wrap items-center gap-4 border-t border-border pt-4">
                     <a
                       href={liveUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center rounded-full border border-border px-3 py-1.5 text-sm text-foreground transition hover:bg-muted"
+                      className="inline-flex items-center gap-1 text-sm transition hover:text-foreground"
                     >
                       Live site
                     </a>
@@ -136,9 +124,10 @@ export default function TestimonialsSection() {
                       href={issueUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center rounded-full border border-border px-3 py-1.5 text-sm text-foreground transition hover:bg-muted"
+                      className="inline-flex items-center gap-1 text-sm transition hover:text-foreground"
                     >
                       View issue
+                      <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </a>
                   </div>
                 </Card>
@@ -146,16 +135,6 @@ export default function TestimonialsSection() {
             )
           )}
         </motion.div>
-        <div className="mt-6">
-          <a
-            href="https://github.com/abhishekkalme?tab=repositories&q=&type=fork&language="
-            target="_blank"
-            rel="noreferrer"
-            className="text-sm text-muted-foreground underline underline-offset-4 transition hover:text-foreground"
-          >
-            View more contributions on GitHub
-          </a>
-        </div>
       </div>
     </section>
   );

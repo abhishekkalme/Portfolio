@@ -10,9 +10,8 @@ interface CardProps {
 
 export function Card({ children, className }: CardProps) {
   return (
-    <div className={twMerge("subtle-card p-5", className)}>
+    <div className={twMerge("subtle-card", className)}>
       {children}
     </div>
   );
 }
-

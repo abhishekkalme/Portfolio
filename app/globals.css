@@ -20,7 +20,7 @@
     --muted: 36 20% 92%;
     --muted-foreground: 222 14% 28%;
 
-    --accent: 22 75% 45%; /* restrained amber */
+    --accent: 22 75% 45%;
     --accent-foreground: 36 33% 96%;
 
     --border: 222 10% 82%;
@@ -68,23 +68,23 @@ body {
 
 @layer components {
   .site-container {
-    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+    @apply mx-auto w-full max-w-6xl px-6 sm:px-8 lg:px-12;
   }
 
   .section {
-    @apply py-16 sm:py-24;
+    @apply py-20 sm:py-28 lg:py-32;
   }
 
   .section-title {
-    @apply font-serif text-3xl sm:text-4xl tracking-tight;
+    @apply font-serif text-3xl sm:text-4xl lg:text-5xl tracking-tight;
   }
 
   .section-kicker {
-    @apply text-xs uppercase tracking-[0.18em] text-muted-foreground;
+    @apply text-[11px] uppercase tracking-[0.2em] text-muted-foreground;
   }
 
   .subtle-card {
-    @apply rounded-lg border border-border bg-card text-card-foreground;
+    @apply rounded-lg border border-border bg-card text-card-foreground p-6;
   }
 
   .quiet-link {
@@ -92,17 +92,88 @@ body {
   }
 
   .button {
-    @apply inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background;
+    @apply inline-flex items-center justify-center rounded-md px-5 py-2.5 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background;
   }
+
   .button-primary {
     @apply bg-foreground text-background hover:bg-foreground/90;
   }
+
   .button-ghost {
     @apply border border-border bg-transparent hover:bg-muted;
   }
 
-  /* legacy helper used across components – redefined as a quiet card */
-  .glass-card {
-    @apply subtle-card;
+  /* Blog prose styles */
+  .prose {
+    @apply text-base leading-relaxed text-foreground;
+  }
+
+  .prose h2 {
+    @apply font-serif text-2xl sm:text-3xl tracking-tight mt-12 mb-4;
+  }
+
+  .prose h3 {
+    @apply text-lg font-semibold mt-8 mb-3;
+  }
+
+  .prose p {
+    @apply mb-5 text-muted-foreground;
+  }
+
+  .prose ul,
+  .prose ol {
+    @apply mb-5 ml-6 space-y-2 text-muted-foreground;
+  }
+
+  .prose ul {
+    @apply list-disc;
+  }
+
+  .prose ol {
+    @apply list-decimal;
+  }
+
+  .prose li {
+    @apply text-muted-foreground;
+  }
+
+  .prose a {
+    @apply underline underline-offset-4 decoration-border hover:decoration-foreground transition-colors;
+  }
+
+  .prose strong {
+    @apply font-semibold text-foreground;
+  }
+
+  .prose blockquote {
+    @apply border-l-2 border-border pl-5 my-6 italic text-muted-foreground;
+  }
+
+  .prose code {
+    @apply text-sm font-mono bg-muted px-1.5 py-0.5 rounded;
+  }
+
+  .prose pre {
+    @apply my-6 rounded-lg border border-border p-5 overflow-x-auto text-sm leading-relaxed;
+  }
+
+  .prose pre code {
+    @apply bg-transparent p-0 text-inherit;
+  }
+
+  .prose hr {
+    @apply my-10 border-border;
+  }
+
+  .prose img {
+    @apply my-8 rounded-lg border border-border;
+  }
+
+  .prose > :first-child {
+    @apply mt-0;
+  }
+
+  .prose > :last-child {
+    @apply mb-0;
   }
 }
