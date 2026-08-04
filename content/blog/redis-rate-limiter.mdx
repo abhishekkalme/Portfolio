@@ -1,0 +1,175 @@
+---
+
+title: "Your API Isn't Slow—It's Too Polite: Building a Redis-Based Rate Limiter"
+description: "A practical look at building a sliding-window rate limiter with Redis, why I chose sorted sets, and what I'd improve before taking it to production."
+date: "2026-07-10"
+tags: ["Node.js", "Redis", "API", "Backend", "System Design"]
+---
+
+## Why I Built This
+
+One of the easiest ways to crash an API isn't with a sophisticated attack—it's with a client that refuses to stop sending requests. Maybe it's a buggy mobile app stuck in a retry loop, an aggressive web scraper, or simply a popular endpoint that suddenly gets featured somewhere.
+
+Regardless of the cause, your backend doesn't care. It just keeps accepting work until something downstream—your database, cache, or another service—starts falling over.
+
+That's where rate limiting comes in. Instead of letting every request through, we introduce a simple rule:
+
+> Every client gets a fair share of resources. Nobody gets to consume everything.
+
+For this project, I wanted something that was:
+
+* Easy to integrate
+* Accurate enough for production workloads
+* Distributed by design
+* Powered by Redis instead of in-memory counters
+
+---
+
+## Why Redis?
+
+A lot of tutorials start with an in-memory `Map`.
+
+It works...
+
+...until you deploy a second server.
+
+Once your application is running behind a load balancer, every instance has its own counters. A user can easily bypass the limit simply because their requests are landing on different servers.
+
+Redis solves that problem by becoming the single source of truth.
+
+Every application instance reads and writes the same data, so the limit is enforced consistently regardless of which server handles the request.
+
+---
+
+## Choosing the Sliding Window Algorithm
+
+There are several ways to implement rate limiting.
+
+* Fixed Window is simple but suffers from burst traffic around window boundaries.
+* Token Bucket is excellent for allowing short bursts.
+* Leaky Bucket smooths traffic over time.
+
+For this implementation, I chose a **Sliding Window Log** because it's straightforward to understand and provides predictable limits.
+
+The basic idea is simple:
+
+1. Store the timestamp of every request.
+2. Remove timestamps that are outside the current window.
+3. Count what's left.
+4. Allow or reject the request.
+
+Redis Sorted Sets are a natural fit because they're already ordered by score, making expired entries easy to remove.
+
+---
+
+## The Core Logic
+
+Every incoming request performs four operations:
+
+1. Remove expired timestamps.
+2. Count the remaining requests.
+3. Reject the request if the limit has been reached.
+4. Otherwise, store the current timestamp.
+
+```javascript
+async function checkRateLimit(client, key, limit, windowMs) {
+  const now = Date.now();
+  const windowStart = now - windowMs;
+
+  await client.zremrangebyscore(key, 0, windowStart);
+  const count = await client.zcard(key);
+
+  if (count >= limit) {
+    return { allowed: false, remaining: 0 };
+  }
+
+  await client.zadd(key, now, `${now}`);
+  await client.expire(key, Math.ceil(windowMs / 1000));
+
+  return {
+    allowed: true,
+    remaining: limit - count - 1,
+  };
+}
+```
+
+The implementation is intentionally small.
+
+There are no background cleanup jobs or scheduled tasks because Redis automatically expires inactive keys.
+
+---
+
+## Making the API Friendly
+
+A rate limiter shouldn't feel like a brick wall.
+
+If a client exceeds the limit, they should know **why** the request failed and **when** they can try again.
+
+That's why I return the standard rate-limit headers:
+
+* `X-RateLimit-Limit` – Maximum requests allowed
+* `X-RateLimit-Remaining` – Requests left in the current window
+* `X-RateLimit-Reset` – When the limit resets
+
+Combined with an HTTP **429 Too Many Requests** response, these headers make it easy for frontend applications, SDKs, and API consumers to implement retries without guessing.
+
+---
+
+## Plugging It Into Express
+
+The integration is intentionally boring—which is exactly what middleware should be.
+
+```javascript
+app.use("/api", rateLimit({
+  limit: 100,
+  windowMs: 60_000,
+}));
+```
+
+No route-specific logic.
+
+No complicated configuration.
+
+Just one middleware protecting every API endpoint.
+
+---
+
+## One Thing I'd Change Before Production
+
+There's one detail that deserves attention.
+
+The current implementation performs multiple Redis commands independently:
+
+1. Remove old entries.
+2. Count requests.
+3. Add the new timestamp.
+
+Under very high concurrency, two requests could execute these steps at nearly the same time, allowing both to pass when only one should.
+
+The fix is to move the entire operation into a **Redis Lua script**.
+
+Lua executes atomically inside Redis, meaning no other client can modify the data while the script is running. The entire "check → count → insert" sequence becomes a single operation.
+
+It's a small change, but it eliminates subtle race conditions that only show up under heavy load.
+
+---
+
+## Final Thoughts
+
+Building a rate limiter isn't about rejecting users.
+
+It's about protecting the users who are playing by the rules.
+
+Redis made this implementation surprisingly compact, while the sliding window algorithm provided predictable limits without introducing much complexity.
+
+If I were taking this further, my next improvements would be:
+
+* Atomic Lua scripts
+* Per-user and per-API-key limits
+* Configurable burst allowances
+* Metrics with Prometheus
+* Distributed benchmarks under load
+
+Because the real test of a rate limiter isn't how it behaves with one request.
+
+It's how calmly it behaves when ten thousand arrive at once.

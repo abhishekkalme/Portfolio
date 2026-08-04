@@ -1,0 +1,255 @@
+---
+title: "When Should You Trust AI-Generated Code? (Almost Never on the First Try)"
+description: "AI can generate code in seconds, but knowing when to trust it is the real engineering skill. Here's my approach to using AI without sacrificing code quality."
+date: "2026-08-03"
+tags: ["AI", "LLMs", "Software Engineering", "Backend", "Developer Productivity"]
+---
+
+A few months ago, I stopped writing most of my boilerplate code.
+
+Express routes.
+
+JWT middleware.
+
+Validation schemas.
+
+Configuration files.
+
+I let AI handle them.
+
+But I never merge AI-generated code without reading every single line.
+
+Not because AI is bad.
+
+Because AI doesn't understand the consequences of being wrong.
+
+That responsibility still belongs to us.
+
+---
+
+## AI Is Like an Incredible Junior Developer
+
+Think about the best junior engineer you've worked with.
+
+They're fast.
+
+They're curious.
+
+They've learned a lot.
+
+But they haven't seen enough production incidents to recognize subtle problems.
+
+That's exactly how I think about AI.
+
+It writes code quickly.
+
+It explains concepts well.
+
+It can scaffold an entire project in minutes.
+
+But it doesn't understand your architecture, business rules, deployment environment, or operational constraints.
+
+It predicts code.
+
+You own the outcome.
+
+---
+
+## Where AI Consistently Saves Me Time
+
+### Boilerplate
+
+There are parts of software development that are repetitive.
+
+- Express routes
+- Authentication middleware
+- TypeScript interfaces
+- Validation schemas
+- Configuration files
+
+These follow predictable patterns, making them ideal candidates for AI assistance.
+
+---
+
+### CRUD Endpoints
+
+If I'm building another CRUD API, AI is usually faster than I am.
+
+Instead of spending twenty minutes writing repetitive code, I spend five minutes reviewing it.
+
+That's a much better trade.
+
+---
+
+### Documentation
+
+README files.
+
+API documentation.
+
+Code comments.
+
+OpenAPI specifications.
+
+Documentation is important, but it's also easy to postpone. AI helps me ship it alongside the code.
+
+---
+
+## Where I Slow Down
+
+Some parts of a codebase deserve extra attention.
+
+### Authentication
+
+Authentication is one of those areas where a tiny mistake can become a serious security issue.
+
+Whenever AI generates authentication code, I manually verify:
+
+- Token validation
+- Signature verification
+- Expiration handling
+- Authorization checks
+- Error handling
+
+The code might compile perfectly and still be insecure.
+
+---
+
+### Database Queries
+
+AI can generate SQL.
+
+It can also generate SQL that works perfectly on a small dataset and performs terribly in production.
+
+Before accepting any generated query, I ask:
+
+- Is an index being used?
+- Will this create an N+1 problem?
+- Is the query scalable?
+- Can it lock unnecessary rows?
+
+Performance issues rarely appear in code reviews—they appear in production dashboards.
+
+---
+
+### Concurrency
+
+Race conditions are difficult for humans.
+
+They're just as difficult for AI.
+
+Whenever I'm working on:
+
+- Rate limiters
+- Distributed locks
+- Job queues
+- Financial transactions
+- Inventory systems
+
+I assume the generated code needs careful review.
+
+Concurrency isn't about whether the code works once.
+
+It's about whether it works correctly a thousand times at the same moment.
+
+---
+
+### Security
+
+AI doesn't think like an attacker.
+
+It doesn't naturally ask:
+
+"What happens if someone intentionally misuses this endpoint?"
+
+That's why I never blindly accept security-sensitive code.
+
+---
+
+## My Rule: Trust Patterns, Verify Logic
+
+Over time I've adopted one simple rule.
+
+**Trust patterns. Verify logic.**
+
+Pattern-based code is usually safe to generate with AI.
+
+Examples include:
+
+- Middleware
+- Routing
+- DTOs
+- Configuration
+- Basic CRUD
+- Unit test scaffolding
+
+Logic-heavy code deserves much more attention.
+
+Especially when it involves:
+
+- Money
+- Authentication
+- Permissions
+- Distributed systems
+- Business rules
+
+The more expensive a mistake would be, the less I trust AI's first answer.
+
+---
+
+## My Workflow
+
+This is how I use AI on most backend projects.
+
+1. Generate the first draft.
+2. Read every line as if it came from a teammate.
+3. Challenge assumptions.
+4. Test edge cases.
+5. Run automated tests.
+6. Refactor for readability and consistency.
+
+AI helps me move faster.
+
+Reviewing helps me stay correct.
+
+---
+
+## The Real Skill Isn't Prompting
+
+People often ask how to write better prompts.
+
+That's useful.
+
+But I think the more valuable skill is learning how to review AI-generated code critically.
+
+The bottleneck has shifted.
+
+Writing code is cheaper than ever.
+
+Understanding whether that code is correct is now the expensive part.
+
+The developers who stand out won't be the ones generating the most code.
+
+They'll be the ones making the best engineering decisions.
+
+---
+
+## Final Thoughts
+
+I trust AI the same way I trust autocomplete.
+
+It's an incredibly capable assistant.
+
+It's not an authority.
+
+The more critical the code, the more skeptical I become.
+
+AI can eliminate hours of repetitive work.
+
+It can't replace engineering judgment.
+
+And honestly, that's a good thing.
+
+The future of software engineering isn't AI writing everything for us.
+
+It's developers using AI to spend less time typing—and more time thinking.

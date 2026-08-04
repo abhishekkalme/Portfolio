@@ -1,0 +1,113 @@
+---
+title: "How I Built Learnify, an LMS My College Actually Wanted to Use"
+description: "Scattered notes, WhatsApp PDFs, and a two-week build that turned into a full-stack LMS with OTP auth, Cloudinary, and a Gemini-powered study buddy."
+date: "2026-05-04"
+tags: ["MERN", "Node.js", "React", "MongoDB", "Cloudinary", "Gemini AI", "Project"]
+---
+
+Every engineering student knows the ritual: exam week rolls around, and suddenly you're the unofficial archivist of your batch. Someone asks, "does anyone have the Data Structures notes?" and within minutes, five different PDFs from three different WhatsApp groups show up — half of them the wrong semester.
+
+I built Learnify because I was tired of being that search engine.
+
+This is the story of how a weekend project became a full-stack learning management system — and the lessons I nearly learned the hard way.
+
+## Where it started
+
+The problem wasn't a lack of materials. It was that materials lived everywhere: WhatsApp groups, random Google Drive folders, a university portal that still felt like 2009. Some of it was outdated, some of it was flat-out wrong, and none of it was verified.
+
+So the goal was simple: **one place where a student logs in, picks their branch and semester, and finds exactly what they need — approved, up to date, and two clicks away.**
+
+The scope creep came later. But let's start with the foundation.
+
+## The foundation: authentication done properly
+
+I'll be honest — when I started, my plan was "just a login form, it's fine." Two weeks later I understood why that thinking is dangerous. Auth is the wall everything else leans against, and if the wall has holes, nothing you build behind it matters.
+
+The flow I settled on:
+
+```
+Sign up → enter name, email, password
+   ↓
+6-digit OTP lands in your inbox
+   ↓
+Verify → password is hashed with bcrypt
+   ↓
+JWT issued, refresh token set as HTTP-only cookie
+```
+
+Three decisions here made everything else easier:
+
+1. **OTP verification.** Requiring an email OTP before an account is active killed fake sign-ups overnight. Nodemailer handles the sending; a simple expiry window handles the abuse.
+2. **HTTP-only cookies for tokens.** My refresh token lives in an HTTP-only, Secure, SameSite cookie — JavaScript can't touch it, so an XSS payload can't steal it.
+3. **Rate limiting.** `express-rate-limit` sits in front of the auth routes. Brute-forcing the login or OTP endpoints became impractical by default.
+
+And Google OAuth as the "I don't want to make another password" option. Because nobody does.
+
+## The wall: role-based access
+
+Learnify has three roles: **admin**, **teacher**, and **student**. The temptation is to write permission checks as `if (user.role === "admin" || user.role === "teacher")` scattered across a dozen controllers. Resist it.
+
+I modeled permissions as a single map at the API layer:
+
+```typescript
+const permissions = {
+  admin: ["create", "read", "update", "delete", "approve"],
+  teacher: ["create", "read", "update"],
+  student: ["read", "download"],
+};
+```
+
+One middleware reads the user's role, looks up the action, and decides. The UI mirrors it — students literally never see admin controls, because the frontend asks the same question: *can this role do this thing?*
+
+The moment this paid off was the approval workflow. Uploaded content starts as `approved: false`. Only an admin can flip it. Because every permission flows through one map, adding that workflow was a few lines instead of a rewrite.
+
+## The data: notes that know where they belong
+
+Early on I made a mistake: I treated "notes" as a flat list. It worked until I had to answer questions like *"show me everything for CSE, 4th semester, Unit 2"* — which is, you know, the entire point of the app.
+
+The fix was committing to structured metadata on every resource:
+
+```json
+{
+  "subject": "Data Structures",
+  "branch": "CSE",
+  "semester": 4,
+  "unit": "Unit 2",
+  "title": "Linked Lists Notes",
+  "fileUrl": "https://res.cloudinary.com/.../linked-lists.pdf",
+  "approved": true
+}
+```
+
+Tag every upload with subject, branch, semester, and unit, and filtering becomes a trivial query instead of a text-search nightmare. **Design your document schema around the questions you'll be asked, not around what's easiest to type.**
+
+The other happy accident: **never store files on your server.** PDFs go straight to Cloudinary — it handles the upload, storage, CDN delivery, and even secure URL generation. MongoDB just stores the URL. My backend stays light, my bandwidth bill stays at zero, and students get a snappy in-app PDF preview from a CDN that's closer to them than my server would ever be.
+
+## The fun part: a Gemini-powered study buddy
+
+Somewhere mid-project I asked myself the question every college student asks at 2am: *what if there was someone who could answer my doubts at 2am?*
+
+So I added an AI assistant powered by Google's Gemini API.
+
+The requirements were simple: it should answer academic questions, remember the conversation, and refuse to become a free homework machine. The implementation:
+
+- A system prompt keeps it constrained to academic topics.
+- Chat history persists per user in MongoDB, so context carries across sessions.
+- The last ~20 messages ride along with each request to give Gemini context.
+- It sits behind the same auth middleware as everything else — no special access.
+
+It wasn't hard to build. That's the point. The AI is one endpoint calling an API; everything around it — who can use it, where the history lives, how it behaves — was already solved by the foundation.
+
+## What I'd tell my past self
+
+If I were starting over, here's the order I'd build in:
+
+1. **Auth first.** OTP, hashing, rate limiting, refresh tokens. Not glamorous, but it's the load-bearing wall.
+2. **Permission model second.** One map, one middleware. Design it before you write a single controller.
+3. **Schema around questions.** Ask "what will users search and filter by?" before designing your documents.
+4. **Storage offloaded.** Cloudinary, S3, whatever — never your own server.
+5. **Fun features last.** The AI assistant was the most fun to build, but only because everything under it was solid.
+
+The biggest surprise? Nobody cares how clever your architecture is. They care that they logged in, found the syllabus, and were studying within two minutes. When the app is invisible, you've done your job.
+
+Learnify is live if you want to poke around: [https://mylearnify.vercel.app](https://mylearnify.vercel.app). And if you're building something similar — build the wall first. It's the part nobody sees, and it's the part everything depends on.

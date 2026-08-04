@@ -1,0 +1,238 @@
+---
+
+title: "JWT Authentication Isn't Magic: What I Learned Building Stateless Auth"
+description: "A practical guide to implementing JWT authentication with refresh tokens, secure middleware, and the lessons I learned along the way."
+date: "2026-06-15"
+tags: ["Node.js", "JWT", "Authentication", "Backend", "Security"]
+---
+
+## Authentication Looks Easy... Until It Isn't
+
+The first authentication system I ever built worked perfectly.
+
+Users could register.
+
+Users could log in.
+
+Protected routes required a token.
+
+Everything looked great...
+
+...until I started asking uncomfortable questions.
+
+What happens if a token is stolen?
+
+How do users stay logged in for weeks?
+
+How do you revoke access without forcing everyone to log in again?
+
+How do multiple servers know who's authenticated?
+
+That's when I realized authentication isn't about generating tokens.
+
+It's about managing trust.
+
+---
+
+## Why I Chose JWT
+
+Traditional session-based authentication stores user sessions on the server.
+
+Every request requires looking up that session before deciding whether the user is authenticated.
+
+That works well—until your application starts scaling.
+
+With JWT (JSON Web Tokens), the server doesn't need to remember every logged-in user.
+
+Instead, it signs a token containing user information.
+
+Every request simply presents that token, and the server verifies the signature before processing it.
+
+No database lookup.
+
+No shared session storage.
+
+No sticky load balancers.
+
+That's why JWT is so common in modern APIs and microservices.
+
+---
+
+## What Actually Lives Inside a JWT?
+
+One misconception I see quite often is that JWTs are encrypted.
+
+They're not.
+
+A JWT is simply a signed JSON object.
+
+Anyone can decode it.
+
+Only the server can verify that it hasn't been modified.
+
+A typical payload looks something like this:
+
+```json
+{
+  "sub": "64e91d2",
+  "email": "alice@example.com",
+  "role": "admin",
+  "iat": 1732644000,
+  "exp": 1732647600
+}
+```
+
+Notice what's missing.
+
+Passwords.
+
+API secrets.
+
+Personal information.
+
+JWTs should contain only the data your application needs to identify the user.
+
+---
+
+## My Authentication Flow
+
+Instead of issuing a single long-lived token, I split authentication into two parts.
+
+### Access Token
+
+* Valid for a short time (around 15 minutes)
+* Sent with every API request
+* Used to access protected resources
+
+### Refresh Token
+
+* Lives much longer
+* Stored securely
+* Used only to generate a new access token
+
+This approach limits the damage if an access token is compromised while keeping the user logged in.
+
+---
+
+## Protecting Routes
+
+Every protected request passes through authentication middleware.
+
+Its job is surprisingly simple:
+
+1. Read the Authorization header.
+2. Verify the JWT signature.
+3. Decode the payload.
+4. Attach the authenticated user to the request.
+5. Reject invalid or expired tokens.
+
+```javascript
+import jwt from "jsonwebtoken";
+
+export function authenticate(req, res, next) {
+  const auth = req.headers.authorization;
+
+  if (!auth?.startsWith("Bearer ")) {
+    return res.status(401).json({
+      message: "Missing authentication token",
+    });
+  }
+
+  const token = auth.split(" ")[1];
+
+  try {
+    req.user = jwt.verify(token, process.env.JWT_SECRET);
+    next();
+  } catch {
+    return res.status(401).json({
+      message: "Invalid or expired token",
+    });
+  }
+}
+```
+
+Most of the complexity isn't in the middleware.
+
+It's in deciding what happens when verification fails.
+
+---
+
+## The Biggest Mistake I Almost Made
+
+Using JWTs doesn't automatically make an application secure.
+
+In fact, one of the easiest mistakes is putting too much trust in the token itself.
+
+A few rules I now follow:
+
+* Never store passwords inside a JWT.
+* Never trust decoded data without verifying the signature.
+* Always set an expiration time.
+* Rotate secrets periodically.
+* Always use HTTPS.
+* Keep access tokens short-lived.
+
+JWTs are excellent for authentication.
+
+They are not a replacement for good security practices.
+
+---
+
+## What About Logout?
+
+This is where stateless authentication becomes interesting.
+
+Since the server doesn't keep sessions, "logging out" isn't as simple as deleting server-side state.
+
+There are several approaches:
+
+* Delete the refresh token.
+* Maintain a token blacklist.
+* Rotate refresh tokens after every use.
+* Change the signing secret (rarely recommended).
+
+For my implementation, I invalidate the refresh token and remove it from storage.
+
+Any future refresh attempt immediately fails.
+
+---
+
+## Lessons From Building It
+
+Authentication isn't about adding middleware.
+
+It's about thinking through every possible failure.
+
+What if a token expires?
+
+What if someone steals it?
+
+What if two devices log in simultaneously?
+
+What if a user changes their password?
+
+These are the questions that separate a working authentication system from a reliable one.
+
+---
+
+## Final Thoughts
+
+JWT authentication isn't complicated because of the code.
+
+The middleware fits comfortably in a single file.
+
+The difficult part is designing the lifecycle around it—how tokens are issued, refreshed, revoked, and eventually expire.
+
+If I were extending this project further, I'd add:
+
+* Refresh token rotation
+* Device-based session management
+* Role-based authorization (RBAC)
+* Email verification
+* Password reset flow
+* Audit logging
+* Multi-factor authentication (MFA)
+
+Authentication is one of those features users never notice when it works.
+
+And that's exactly how it should be.
