@@ -1,0 +1,11 @@
+
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/:path*",
+      "destination": "https://abhixworks.vercel.app/:path*",
+      "permanent": true
+    }
+  ]
+}
