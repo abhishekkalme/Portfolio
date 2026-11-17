@@ -1,11 +1,13 @@
-
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
     {
-      "source": "/:path*",
-      "destination": "https://abhixworks.vercel.app/:path*",
-      "permanent": true
+      "source": "/((?!_next/|favicon.ico).*)",
+      "has": [
+        { "type": "host", "value": "abhishek-portfolio25.vercel.app" }
+      ],
+      "destination": "https://abhixworks.vercel.app/$1",
+      "permanent": false
     }
   ]
 }
